@@ -1,4 +1,4 @@
-use eframe::egui::{self, collapsing_header::HeaderResponse};
+use eframe::egui::{self, collapsing_header::HeaderResponse, scroll_area, ScrollArea};
 
 #[derive(Default)]
 struct RustyHeadlines {
@@ -27,15 +27,23 @@ impl RustyHeadlines{
     }
 }
 
+
+// Here you need to improove the quality of code by looking at the examples proovided at:
+// https://www.egui.rs/#demo
+// Use the sources here:
+// https://github.com/emilk/egui/blob/master/crates/egui_demo_lib/src/demo/scrolling.rs
+
 impl eframe::App for RustyHeadlines {
     fn update(&mut self, ctx: &egui::Context, frame: &mut eframe::Frame) {
         egui::CentralPanel::default().show(ctx, |ui| {
-            for a in &self.articles{
-                ui.label(&a.title);
-                ui.label(&a.url);
-                ui.label(&a.description);
+            ScrollArea::vertical().auto_shrink([false; 2]).show(ui, |ui| {
+                for a in &self.articles{
+                    ui.label(&a.title);
+                    ui.label(&a.url);
+                    ui.label(&a.description);
                 
-            }
+                }
+            });
         });
     }
 }
