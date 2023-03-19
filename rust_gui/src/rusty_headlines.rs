@@ -1,4 +1,4 @@
-use eframe::{egui::{self, Layout, Separator}, epaint::Color32};
+use eframe::{egui::{self, Layout, Separator, TopBottomPanel, Context, Button}, epaint::Color32};
 
 const PADDING: f32 = 5.0;
 const WHITE: Color32 = Color32::from_rgb(255, 255, 255);
@@ -54,6 +54,26 @@ impl RustyHeadlines{
             ui.add_space(PADDING);
             ui.add(Separator::default());
         }
+    }
+
+    pub(crate) fn render_top_panel(&self, cc: &Context){
+        TopBottomPanel::top("top panel").show(cc, |ui|{
+            ui.add_space(10.);
+            egui::menu::bar(ui, |ui |{
+                ui.with_layout(Layout::left_to_right(egui::Align::TOP), |ui|{
+                    use egui::special_emojis::OS_WINDOWS;
+                    ui.label(egui::RichText::new(OS_WINDOWS).heading()); // TODO: Add a proper icon!
+                });
+
+                // controls
+                ui.with_layout(Layout::right_to_left(egui::Align::TOP), |ui|{
+                    let close_btn = ui.add(Button::new("❌"));
+                    let refresh_btn = ui.add(Button::new("🔄"));
+                    let theme_btn = ui.add(Button::new("🌙"));
+                })
+            });
+            ui.add_space(10.);
+        });
     }
 }
 
